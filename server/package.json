@@ -17,6 +17,10 @@
     "gemini"
   ],
   "author": "Ujjawal Kumar",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/guptaujjawal231-png/Smart-Interview-Preparation-Platform.git"
+  },
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^3.0.3",

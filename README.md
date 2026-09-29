@@ -207,8 +207,8 @@ ai-interview-prep/
 
 ### Step 1: Clone the Repository
 ```bash
-git clone https://github.com/your-username/ai-interview-prep.git
-cd ai-interview-prep
+git clone https://github.com/guptaujjawal231-png/Smart-Interview-Preparation-Platform.git
+cd Smart-Interview-Preparation-Platform
 ```
 
 ---

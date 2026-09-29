@@ -1,7 +1,11 @@
 {
   "name": "client",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/guptaujjawal231-png/Smart-Interview-Preparation-Platform.git"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",
