@@ -1,0 +1,152 @@
+[
+  {
+    "questionText": "Explain the difference between a Process and a Thread in an Operating System.",
+    "role": "Software Developer",
+    "topic": "Operating Systems",
+    "difficulty": "Beginner",
+    "keyConcepts": ["Address space", "Context switching overhead", "Inter-process communication (IPC)", "Shared memory", "PCB vs TCB"],
+    "hints": ["Think about memory sharing and isolation between tasks.", "Which one is heavier to create and context switch?"],
+    "explanation": "A process is an executing instance of a program with its own dedicated memory space, address space, and system resources. A thread is the smallest unit of execution within a process, sharing the parent process's code, data, and heap segments while having its own stack and registers.",
+    "sampleAnswer": "A process is an independent program in execution with its own private address space and resources managed via a Process Control Block (PCB). Threads are lightweight units of execution within a process that share the process's heap, global variables, and open files, but each maintain their own stack and program counter (TCB). Context switching between threads is significantly faster than between processes because virtual memory mappings do not need to be flushed."
+  },
+  {
+    "questionText": "What are the four ACID properties in a Relational Database Management System (DBMS)?",
+    "role": "Software Developer",
+    "topic": "DBMS",
+    "difficulty": "Beginner",
+    "keyConcepts": ["Atomicity", "Consistency", "Isolation", "Durability", "Transactions", "WAL / Undo-Redo Logs"],
+    "hints": ["Think about what happens during a bank balance transfer when power fails midway."],
+    "explanation": "ACID properties ensure reliable processing of database transactions, maintaining data integrity even amidst hardware failures, system crashes, or concurrent operations.",
+    "sampleAnswer": "The ACID properties guarantee transaction reliability:\n1. Atomicity: All operations in a transaction succeed completely, or none do ('all-or-nothing').\n2. Consistency: The database transitions from one valid state to another, satisfying all integrity constraints.\n3. Isolation: Concurrent transactions execute without interfering with one another, preventing dirty reads or phantom rows.\n4. Durability: Once a transaction commits, its updates persist permanently even in the event of a system crash, typically guaranteed using write-ahead logging (WAL)."
+  },
+  {
+    "questionText": "How does a Hash Map handle collisions, and what is the difference between Chaining and Open Addressing?",
+    "role": "Software Developer",
+    "topic": "Data Structures & Algorithms",
+    "difficulty": "Intermediate",
+    "keyConcepts": ["Hash function", "Collision resolution", "Separate Chaining", "Open Addressing", "Linear Probing", "Load factor"],
+    "hints": ["What happens when two different keys generate the same array index?"],
+    "explanation": "Collisions occur when two distinct keys yield the same hash code/index. Chaining and Open Addressing are the two predominant techniques for resolving collisions.",
+    "sampleAnswer": "A hash collision happens when two keys hash to the same bucket index. There are two primary collision resolution strategies:\n1. Separate Chaining: Each bucket holds a linked list (or balanced red-black tree in Java 8+) of entries with identical hashes. If a collision occurs, the new item is appended to that bucket's list.\n2. Open Addressing: All elements reside directly within the hash table array. When a collision occurs, the algorithm probes alternative slots (using Linear Probing, Quadratic Probing, or Double Hashing) until an unoccupied slot is located. Chaining degrades gracefully under high load factors, while open addressing requires resizing earlier to prevent clustering."
+  },
+  {
+    "questionText": "Explain the TCP 3-Way Handshake mechanism and why two packets are not sufficient to establish a connection.",
+    "role": "Software Developer",
+    "topic": "Computer Networks",
+    "difficulty": "Intermediate",
+    "keyConcepts": ["SYN", "SYN-ACK", "ACK", "Sequence numbers", "Full-duplex communication", "Duplicate packet prevention"],
+    "hints": ["Consider both sides needing to synchronize their initial sequence numbers reliably."],
+    "explanation": "The 3-way handshake establishes a reliable, bidirectional, full-duplex TCP socket between client and server before data transfer begins.",
+    "sampleAnswer": "The TCP 3-way handshake establishes a reliable full-duplex connection through three steps:\n1. Client -> Server: Sends a SYN packet with Initial Sequence Number ISN_c to request a connection.\n2. Server -> Client: Responds with SYN-ACK, acknowledging ISN_c + 1 and presenting its own sequence number ISN_s.\n3. Client -> Server: Sends ACK acknowledging ISN_s + 1.\nTwo packets are insufficient because TCP is bidirectional: both the client and server must verify that the other side can receive and transmit. A 2-way handshake would leave the server uncertain whether the client received its SYN-ACK, potentially causing half-open connections and phantom allocations from delayed duplicate packets."
+  },
+  {
+    "questionText": "What is the difference between Mutex and Semaphore? When would you use a counting semaphore?",
+    "role": "Software Developer",
+    "topic": "Operating Systems",
+    "difficulty": "Advanced",
+    "keyConcepts": ["Mutual exclusion", "Signaling mechanism", "Binary semaphore", "Counting semaphore", "Ownership", "Priority inversion"],
+    "hints": ["Think about ownership: Can one thread unlock what another thread locked?"],
+    "explanation": "A Mutex is a locking mechanism with strict thread ownership, whereas a Semaphore is a signaling mechanism with an integer counter.",
+    "sampleAnswer": "A Mutex (Mutual Exclusion object) is a locking mechanism owned by a single thread; only the thread that acquired the lock can release it, making it ideal for guarding critical sections.\nA Semaphore is a signaling mechanism without ownership semantics. A counting semaphore maintains an integer count representing available permits. It is used when managing access to a finite pool of identical resources—such as a database connection pool with 10 available connections. Multiple threads can acquire permits simultaneously up to the maximum count."
+  },
+  {
+    "questionText": "What is the difference between WHERE and HAVING clauses in SQL? Give an example.",
+    "role": "Data Analyst",
+    "topic": "SQL",
+    "difficulty": "Beginner",
+    "keyConcepts": ["WHERE clause", "HAVING clause", "GROUP BY", "Aggregate functions", "Query execution order"],
+    "hints": ["Which one filters individual rows before grouping, and which one filters grouped results?"],
+    "explanation": "WHERE filters individual rows prior to aggregation, while HAVING filters aggregated metric groups after GROUP BY.",
+    "sampleAnswer": "The WHERE clause filters individual rows before any aggregations are computed and cannot contain aggregate functions like SUM() or AVG(). The HAVING clause filters grouped records after the GROUP BY operation has aggregated the data.\nExample:\nSELECT department_id, AVG(salary) FROM employees WHERE status = 'Active' GROUP BY department_id HAVING AVG(salary) > 50000;\nHere, WHERE filters active employees first, and HAVING filters only departments whose average salary exceeds 50,000."
+  },
+  {
+    "questionText": "Explain the difference between ROW_NUMBER(), RANK(), and DENSE_RANK() in SQL window functions.",
+    "role": "Data Analyst",
+    "topic": "SQL",
+    "difficulty": "Intermediate",
+    "keyConcepts": ["Window functions", "OVER() clause", "Ties / duplicate values", "Gap in rank sequence", "PARTITION BY"],
+    "hints": ["Imagine two students tied for 1st place: What rank does the next student get in RANK vs DENSE_RANK?"],
+    "explanation": "All three assign sequential integers to rows based on order, but differ in how they handle duplicate values (ties).",
+    "sampleAnswer": "When ranking values with identical scores (e.g., scores 100, 100, 90):\n1. ROW_NUMBER(): Assigns unique sequential integers regardless of ties (1, 2, 3).\n2. RANK(): Assigns identical rank to ties, but leaves gaps in subsequent ranks (1, 1, 3).\n3. DENSE_RANK(): Assigns identical rank to ties without skipping subsequent ranks (1, 1, 2).\nDENSE_RANK() is commonly preferred when finding top-N performers without arbitrary gaps."
+  },
+  {
+    "questionText": "What is the Central Limit Theorem (CLT) and why is it foundational in statistical analysis?",
+    "role": "Data Analyst",
+    "topic": "Statistics",
+    "difficulty": "Intermediate",
+    "keyConcepts": ["Sample mean", "Normal distribution", "Sample size (n >= 30)", "Standard error", "Hypothesis testing"],
+    "hints": ["What happens to the distribution of sample averages even if the underlying population is skewed?"],
+    "explanation": "CLT states that sample means approximate a normal distribution as sample size grows, regardless of the population distribution shape.",
+    "sampleAnswer": "The Central Limit Theorem states that if you take sufficiently large random samples from any population with a finite variance, the distribution of the sample means will approximate a normal distribution (Gaussian bell curve), regardless of whether the underlying population is uniform, bimodal, or skewed. As sample size n increases (typically n >= 30), the mean of sample means equals the population mean, and standard error shrinks by sigma / sqrt(n). This justifies using parametric tests (like Z-tests and t-tests) and confidence intervals on real-world skewed data."
+  },
+  {
+    "questionText": "How do you detect and handle missing data in a Pandas DataFrame? Compare fillna vs dropna.",
+    "role": "Data Analyst",
+    "topic": "Python & Pandas",
+    "difficulty": "Beginner",
+    "keyConcepts": ["df.isnull()", "df.dropna()", "df.fillna()", "Imputation (mean/median/mode)", "Data bias"],
+    "hints": ["Think about when dropping rows could lose valuable data vs when filling with median is safer."],
+    "explanation": "Handling missing data involves identifying nulls via isnull()/isna() and deciding between dropping rows/columns or imputing values.",
+    "sampleAnswer": "In Pandas, missing data is identified using df.isna().sum() or df.isnull().mean().\n1. dropna(): Removes rows or columns containing NaN values. Useful when missingness is below 2-3% and data volume is abundant, but risky if dropping rows introduces selection bias or removes critical samples.\n2. fillna(): Imputes missing values using fixed values, mean/median (for continuous numerical variables with skew), mode (for categorical variables), or forward/backward fill for time series. Median imputation is generally preferred over mean because it is robust against outliers."
+  },
+  {
+    "questionText": "What is the difference between Setup Time and Hold Time in digital sequential circuits? What happens during a violation?",
+    "role": "ECE / Core Electronics",
+    "topic": "Digital Electronics",
+    "difficulty": "Beginner",
+    "keyConcepts": ["Setup time (Tsu)", "Hold time (Th)", "Clock edge", "Flip-flop", "Metastability", "Propagation delay"],
+    "hints": ["Think about when data must be stable BEFORE the clock edge and AFTER the clock edge."],
+    "explanation": "Setup and hold times are fundamental timing requirements for flip-flops to ensure deterministic data capture without metastability.",
+    "sampleAnswer": "In digital sequential circuits:\n- Setup Time (Tsu): The minimum duration the data input (D) must remain stable BEFORE the active clock edge arrives.\n- Hold Time (Th): The minimum duration the data input (D) must remain stable AFTER the active clock edge arrives.\nIf either requirement is violated, the internal bistable latch enters a metastable state—an intermediate, non-deterministic voltage between logic 0 and logic 1—which causes unpredictable oscillations, high propagation delay, and systemic logic failure."
+  },
+  {
+    "questionText": "Why is the 'volatile' keyword used in Embedded C? Give two concrete hardware examples.",
+    "role": "ECE / Core Electronics",
+    "topic": "Embedded C",
+    "difficulty": "Intermediate",
+    "keyConcepts": ["Compiler optimization", "Memory-mapped I/O registers", "Interrupt Service Routine (ISR) flags", "Hardware registers", "Cache bypass"],
+    "hints": ["What happens when a compiler assumes a variable only changes via software code, but hardware changes it?"],
+    "explanation": "The volatile qualifier informs the compiler that a variable's value can change at any time without software action, preventing improper optimization.",
+    "sampleAnswer": "The 'volatile' keyword tells the C compiler that a variable can be modified unexpectedly by external hardware or concurrent processes, preventing the compiler from caching its value in a CPU register or optimizing away seemingly redundant reads/writes.\nTwo classic examples:\n1. Memory-Mapped Peripheral Registers: While polling a hardware status register (e.g., `while(!(UART0_STATUS & RX_READY));`), an optimizing compiler without volatile might read the memory address once and loop infinitely on the cached CPU register.\n2. Global Flags in Interrupt Service Routines (ISRs): When an ISR alters a flag to signal the main loop (`while(!data_ready);`), declaring `volatile uint8_t data_ready;` ensures the main loop re-fetches the actual RAM address every iteration."
+  },
+  {
+    "questionText": "Compare Von Neumann and Harvard Computer Architectures. Which one is predominantly used in modern microcontrollers like ARM Cortex?",
+    "role": "ECE / Core Electronics",
+    "topic": "Microprocessors & Microcontrollers",
+    "difficulty": "Intermediate",
+    "keyConcepts": ["Instruction bus", "Data bus", "Von Neumann bottleneck", "Simultaneous access", "ARM Cortex-M modified Harvard"],
+    "hints": ["Do instructions and data share the exact same physical bus or separate buses?"],
+    "explanation": "Von Neumann shares bus paths between data and instructions; Harvard uses separate physical buses for parallel fetching.",
+    "sampleAnswer": "1. Von Neumann Architecture: Utilizes a unified memory space and a single shared bus for both program instructions and data. This introduces the 'Von Neumann Bottleneck', where instruction fetching and data reading/writing cannot occur simultaneously.\n2. Harvard Architecture: Features separate physical memories and dedicated independent buses for instructions (I-bus) and data (D-bus), allowing parallel instruction execution and data manipulation in a single clock cycle.\nModern microcontrollers like ARM Cortex-M utilize a Modified Harvard Architecture: they provide separate instruction and data buses connected to internal caches and memories, while presenting a unified 32-bit linear address space to programmers."
+  },
+  {
+    "questionText": "What is the Nyquist Sampling Theorem, and what is Aliasing in Digital Signal Processing?",
+    "role": "ECE / Core Electronics",
+    "topic": "Communication & Signal Processing",
+    "difficulty": "Intermediate",
+    "keyConcepts": ["Sampling frequency (Fs)", "Maximum signal frequency (Fmax)", "Nyquist rate (2 * Fmax)", "Aliasing", "Anti-aliasing low pass filter"],
+    "hints": ["How fast must an ADC sample an analog audio wave to capture it without distortion?"],
+    "explanation": "Nyquist theorem establishes the minimum sampling rate required to convert an analog continuous signal into digital samples without loss.",
+    "sampleAnswer": "The Nyquist-Shannon Sampling Theorem states that to perfectly reconstruct a continuous bandlimited analog signal from its discrete samples, the sampling frequency (Fs) must be at least twice the maximum frequency component (Fmax) present in the signal (Fs >= 2 * Fmax).\nIf Fs < 2 * Fmax, high-frequency components fold back into the lower frequency spectrum, creating false, distorted ghost frequencies known as Aliasing. In practical hardware, an analog Anti-Aliasing Low-Pass Filter (LPF) is placed prior to the Analog-to-Digital Converter (ADC) to eliminate frequencies exceeding Fs / 2."
+  },
+  {
+    "questionText": "Explain the ideal characteristics of an Operational Amplifier (Op-Amp) versus a real-world device like the LM741.",
+    "role": "ECE / Core Electronics",
+    "topic": "Analog Electronics",
+    "difficulty": "Beginner",
+    "keyConcepts": ["Input impedance (Rin)", "Output impedance (Rout)", "Open-loop voltage gain (Aol)", "Bandwidth", "CMRR", "Slew rate"],
+    "hints": ["What are the theoretical infinite/zero parameters of an ideal Op-Amp?"],
+    "explanation": "Ideal Op-Amps assume infinite gain, infinite input impedance, and zero output impedance; real devices have physical constraints.",
+    "sampleAnswer": "Ideal Op-Amp Characteristics:\n1. Input Impedance (Rin): Infinite (draws zero input bias current).\n2. Output Impedance (Rout): Zero (can drive any load without voltage drop).\n3. Open-Loop Voltage Gain (Aol): Infinite.\n4. Bandwidth: Infinite (constant gain across all frequencies).\n5. Common Mode Rejection Ratio (CMRR): Infinite (completely rejects common-mode noise).\n6. Slew Rate: Infinite.\nIn a practical real-world Op-Amp like LM741: Rin is around 2 Megaohms, Rout is ~75 ohms, Aol is approximately 200,000 (106 dB), bandwidth is gain-bandwidth limited (~1 MHz), and slew rate is around 0.5 V/microsecond."
+  },
+  {
+    "questionText": "What causes static and dynamic power dissipation in CMOS VLSI circuits, and how do designers minimize them?",
+    "role": "ECE / Core Electronics",
+    "topic": "VLSI Fundamentals",
+    "difficulty": "Advanced",
+    "keyConcepts": ["Dynamic power (P = alpha * C * Vdd^2 * f)", "Subthreshold leakage", "Static power", "Clock gating", "Power gating", "DVFS"],
+    "hints": ["What happens during switching (capacitance charging) vs when the circuit is idle?"],
+    "explanation": "CMOS power dissipation comprises dynamic switching power and static leakage power through nanoscale transistors.",
+    "sampleAnswer": "CMOS power dissipation consists of two major components:\n1. Dynamic Power Dissipation: Occurs during logic switching. The dominant factor is capacitive charging/discharging given by P_dynamic = alpha * C_load * Vdd^2 * f (where alpha is switching activity, C_load is load capacitance, Vdd is supply voltage, and f is clock frequency), plus brief short-circuit current when PMOS and NMOS conduct simultaneously.\n2. Static Power Dissipation: Consumed when transistors are idle, primarily caused by subthreshold leakage current, gate oxide leakage, and reverse-biased pn-junction leakage (increasing drastically in sub-7nm nodes).\nDesigners minimize power via: Clock Gating (shutting off clock to inactive registers), Dynamic Voltage and Frequency Scaling (DVFS), Multi-threshold CMOS (MTCMOS / Power Gating), and reducing Vdd."
+  }
+]
