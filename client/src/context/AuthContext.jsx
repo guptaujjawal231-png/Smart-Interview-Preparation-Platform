@@ -31,6 +31,9 @@ export const AuthProvider = ({ children }) => {
     setError(null);
     try {
       const data = await authService.login({ email, password });
+      if (data.token) {
+        localStorage.setItem('token', data.token);
+      }
       setUser(data.user);
       return { success: true };
     } catch (err) {
@@ -44,6 +47,9 @@ export const AuthProvider = ({ children }) => {
     setError(null);
     try {
       const data = await authService.register(userData);
+      if (data.token) {
+        localStorage.setItem('token', data.token);
+      }
       setUser(data.user);
       return { success: true };
     } catch (err) {
@@ -59,6 +65,7 @@ export const AuthProvider = ({ children }) => {
     } catch (err) {
       console.warn('Logout error', err);
     } finally {
+      localStorage.removeItem('token');
       setUser(null);
     }
   };
